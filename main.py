@@ -1,88 +1,56 @@
-class File:
-    className = 'File'
-    objectsCount = 0
+import random
 
-    def __init__(self, name, kbs, type):
-        self._name = name
-        self._kbs = kbs
-        self._type = type
-        File.objectsCount = File.objectsCount + 1
+class Book:
+    def __init__(self, num_pages, num_pictures):
+        self.num_pages = num_pages
+        self.num_pictures = num_pictures
+        self.time_per_page = random.randint(1, 10)
 
-    def get_name(self):
-        return self._name
+    def reading_time(self):
+        return self.num_pages * self.time_per_page
 
-    def set_name(self, n):
-        self._name = n
-
-    def get_kbs(self):
-        return self._kbs
-
-    def set_kbs(self, kbs):
-        if kbs > 0:
-            self._kbs = kbs
-        else:
-            self._kbs = 0.1
-
-    def type(self):
-        return self._type
-
-    def info(self):
-        print(self._name)
-        print(f"Размер: {self._kbs} кб")
-        print(f'Формат: {self._type}')
-
-    def kbsToBytes(self):
-        print(f'Размер в байтах: {self._kbs * 1024}')
+    def display_info(self):
+        print(f"Количество страниц: {self.num_pages}, Время на страницу: {self.time_per_page}, Количество иллюстраций: {self.num_pictures}")
 
 
-class Image(File):
-    className = 'Image'
+class Encyclopedia(Book):
+    def __init__(self, num_pages, num_pictures, num_articles_per_page, edition):
+        super().__init__(num_pages, num_pictures)
+        self.num_articles_per_page = num_articles_per_page
+        self.time_per_page = random.randint(1, 10)
+        self.edition = edition
 
-    def __init__(self, name, kbs, type, height, width):
-        super().__init__(name, kbs, type)
-        self.height = height
-        self.width = width
+    def articles_per_page(self):
+        return self.num_articles_per_page
 
-    def set_height(self, height):
-        if height > 0:
-            self.height = height
-        else:
-            self.height = 1
-
-    def set_width(self, width):
-        if width > 0:
-            self.width = width
-        else:
-            self.width = 1
-
-    def info(self):
-        super().info()
-        print(f'Тип: {Image.className}')
-        print(f"Высота (пкс): {self.height}")
-        print(f'Ширина (пкс): {self.width}')
-
-    def amount(self):
-        print(f'Площадь в пикселях: {self.height * self.width}')
-
-    def __eq__(self, other):
-        return self.height == other.height and self.width == other.width
+    def display_info(self):
+        super().display_info()
+        print(f"Количество статей на страницу: {self.num_articles_per_page}, Издание: {self.edition}")
 
 
-b = File("Объект класса " + File.className, 11, 'TXT')
-b.info()
-b.kbsToBytes()
+class PhoneDirectory(Book):
+    def __init__(self, num_pages, num_pictures, num_numbers_per_page, region):
+        super().__init__(num_pages, num_pictures)
+        self.num_numbers_per_page = num_numbers_per_page
+        self.time_per_page = random.randint(1, 10)
+        self.region = region
 
-print('\n')
+    def numbers_per_page(self):
+        return self.num_numbers_per_page
 
-im = Image('background.jpg', 44.1, 'JPG', 800, 600)
-im2 = Image('new_background.jpg', 42.8, 'JPG', 800, 600)
+    def display_info(self):
+        super().display_info()
+        print(f"Количество номеров на страницу: {self.num_numbers_per_page}, Регион: {self.region}")
 
-im.amount()
-im.kbsToBytes()
 
-if (im == im2) is True:
-    print(f'{im.get_name()} и {im2.get_name()} равны.')
-else:
-    print(f'{im.get_name()} и {im2.get_name()} не равны.')
+book1 = Book(200, 20)
+book1.display_info()
+print(f"Общее время чтения: {book1.reading_time()} минут")
 
-print(f'Objects count: {File.objectsCount}')
+encyclopedia1 = Encyclopedia(300, 30, 10, "Первое издание")
+encyclopedia1.display_info()
+print(f"Общее время чтения: {encyclopedia1.reading_time()} минут")
+
+phone_dir1 = PhoneDirectory(150, 10, 15, "Европа")
+phone_dir1.display_info()
+print(f"Общее время чтения: {phone_dir1.reading_time()} минут")
